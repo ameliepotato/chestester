@@ -14,6 +14,9 @@ function Game(props) {
     const handleGuess = (black) => {
         if (black === !chessLogic.squareIsWhite(position)) {
             setCorrectGuesses((correctGuesses) => correctGuesses + 1);
+            speak("Correct");
+        } else {
+            speak("Incorrect");
         }
         setTries((tries) => tries + 1);
         setPosition(chessLogic.getRandomPosition());
@@ -29,9 +32,19 @@ function Game(props) {
         }
     };
 
+    function speak(phrase) {
+        const utterance = new SpeechSynthesisUtterance(phrase);
+        utterance.voice = speechSynthesis.getVoices()[0]; 
+      
+        // Speak the text
+        speechSynthesis.speak(utterance);
+    }
+
     useEffect(() => {
         console.log('Adding event listener for keydown');
         window.addEventListener('keydown', handleKeyPress);
+
+        speak(position);
 
         // Cleanup event listener on component unmount
         return () => {

@@ -1,6 +1,6 @@
 import './Game.css';
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Board from "./Board";
 import chessLogic from "./chess";
 
@@ -9,35 +9,53 @@ function Game(props) {
     const [tries, setTries] = useState(0);
     const [correctGuesses, setCorrectGuesses] = useState(0);
 
+    const handleGuess = (black) => {
+        if (black === !chessLogic.squareIsWhite(position)) {
+            setCorrectGuesses((correctGuesses) => correctGuesses + 1);
+        }
+        setTries((tries) => tries + 1);
+        setPosition(chessLogic.getRandomPosition());
+    }
+
+    const handleKeyPress = (event) => {
+        console.log('Key pressed:', event.key);
+        if (event.code === 'Period') {  // '>' key
+            handleGuess(true);
+        }
+        if (event.code === 'Comma') {  // '<' key
+            handleGuess(false);
+        }
+    };
+
+    useEffect(() => {
+        console.log('Adding event listener for keydown');
+        window.addEventListener('keydown', handleKeyPress);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            console.log('Removing event listener for keydown');
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
+
     return (
         <div data-testid="Game" className='Game'>
-           
             <div className='GameImportantText'>
-                {position}  is...
+                {position} is...
             </div>
-            <Button onClick={() => {
-                if (chessLogic.squareIsWhite(position)) setCorrectGuesses((correctGuesses) => correctGuesses + 1);
-                setTries((tries) => tries + 1);
-                setPosition(chessLogic.getRandomPosition());
-            }} >
+            <Button onClick={() => handleGuess(false)}>
                 White
             </Button>
-            <Button onClick={() => {
-                if (!chessLogic.squareIsWhite(position)) setCorrectGuesses((correctGuesses) => correctGuesses + 1);
-                setTries((tries) => tries + 1);
-                setPosition(chessLogic.getRandomPosition());
-            }}>
-
+            <Button onClick={() => handleGuess(true)}>
                 Black
             </Button>
             <Board black={props.black} />
-
-            <p className='GameText'> 
+            <p className='GameText'>
                 {(props.black ? "Black: " : "White: ")} {correctGuesses} correct guesses out of {tries} ({(correctGuesses / (tries ? tries : 1) * 100).toFixed(2)}%)
                 <br></br>
-
             </p>
-        </div>)
-};
+        </div>
+    );
+}
 
 export default Game;

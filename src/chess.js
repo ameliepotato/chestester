@@ -5,7 +5,7 @@ var chessLogic = {
         const y = coordinates.charAt(1).charCodeAt();
         return (x + y) % 2 === 1;
     },
-    getRandomPosition: function(){
+    getRandomPosition: function() {
         var letters = "ABCDEFGH";
         var numbers = "12345678";
 

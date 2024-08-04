@@ -3,12 +3,13 @@ import Intro from './Intro';
 
 function App() {
   return (
-    <div className="App">
-      <p>
+    <div className='App'>
+      <p >
         Chestester
       </p>
       <Intro />
     </div>
+
   );
 }
 

@@ -6,7 +6,7 @@ const Intro = () => {
   const [gameStatus, setGameStatus] = useState(0);
 
   return (
-    <div data-testid="Intro"> 
+    <div data-testid="Intro">
       {gameStatus === 0 &&
         (<Button onClick={() => setGameStatus(1)} data-testid="button-white">
           White
@@ -23,18 +23,16 @@ const Intro = () => {
           Black
         </Button>
         )}
-
-
+      {gameStatus !== 0 &&
+        (<div>
+          <Game black={gameStatus === 2} />
+        </div>)
+      }
       {
         gameStatus !== 0 &&
         (<Button onClick={() => setGameStatus(0)} data-testid="button-back">
           Back
         </Button>)
-      }
-      {gameStatus !== 0 &&
-        (<div style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
-          <Game black={gameStatus === 2} />
-        </div>)
       }
     </div>
   );

@@ -11,13 +11,10 @@ function Game(props) {
 
     return (
         <div data-testid="Game" className='Game'>
-            <p>
-                {(props.black ? "Black: " : "White: ")} {correctGuesses} correct guesses out of {tries} ({(correctGuesses/(tries?tries:1)*100).toFixed(2)}%)
-                <br></br>
-                {position}
-                <br></br>
-            </p>
            
+            <div className='GameImportantText'>
+                {position}  is...
+            </div>
             <Button onClick={() => {
                 if (chessLogic.squareIsWhite(position)) setCorrectGuesses((correctGuesses) => correctGuesses + 1);
                 setTries((tries) => tries + 1);
@@ -30,10 +27,16 @@ function Game(props) {
                 setTries((tries) => tries + 1);
                 setPosition(chessLogic.getRandomPosition());
             }}>
+
                 Black
             </Button>
             <Board black={props.black} />
 
+            <p className='GameText'> 
+                {(props.black ? "Black: " : "White: ")} {correctGuesses} correct guesses out of {tries} ({(correctGuesses / (tries ? tries : 1) * 100).toFixed(2)}%)
+                <br></br>
+
+            </p>
         </div>)
 };
 

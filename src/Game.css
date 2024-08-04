@@ -1,4 +1,17 @@
 .Game {
   text-align: center;
   font-size: small;
+ 
+  margin-top: '20px';
+  padding: '10px';
+  border: '1px solid black'
+}
+
+.GameText{
+  font-style: italic;
+  font-size: xx-small;
+}
+
+.GameImportantText{
+  color: red
 }

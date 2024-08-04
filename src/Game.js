@@ -5,7 +5,9 @@ import Board from "./Board";
 import chessLogic from "./chess";
 
 function Game(props) {
-    const [position, setPosition] = useState(chessLogic.getRandomPosition());
+    const [position, setPosition] = useState(() => {
+        return chessLogic.getRandomPosition();
+      });
     const [tries, setTries] = useState(0);
     const [correctGuesses, setCorrectGuesses] = useState(0);
 
@@ -18,7 +20,7 @@ function Game(props) {
     }
 
     const handleKeyPress = (event) => {
-        console.log('Key pressed:', event.key);
+        console.log('Key pressed:', event.key, " position:",  position);
         if (event.code === 'Period') {  // '>' key
             handleGuess(true);
         }
@@ -36,7 +38,7 @@ function Game(props) {
             console.log('Removing event listener for keydown');
             window.removeEventListener('keydown', handleKeyPress);
         };
-    }, []);
+    }, [position]);
 
     return (
         <div data-testid="Game" className='Game'>

@@ -5,20 +5,25 @@ import Board from "./Board";
 import chessLogic from "./chess";
 
 function Game(props) {
-    const [position, setPosition] = useState(chessLogic.getRandomPosition());
+    const [position, setPosition] = useState(() => {
+        return chessLogic.getRandomPosition();
+      });
     const [tries, setTries] = useState(0);
     const [correctGuesses, setCorrectGuesses] = useState(0);
 
     const handleGuess = (black) => {
         if (black === !chessLogic.squareIsWhite(position)) {
             setCorrectGuesses((correctGuesses) => correctGuesses + 1);
+            speak("Correct");
+        } else {
+            speak("Incorrect");
         }
         setTries((tries) => tries + 1);
         setPosition(chessLogic.getRandomPosition());
     }
 
     const handleKeyPress = (event) => {
-        console.log('Key pressed:', event.key);
+        console.log('Key pressed:', event.key, " position:",  position);
         if (event.code === 'Period') {  // '>' key
             handleGuess(true);
         }
@@ -27,16 +32,26 @@ function Game(props) {
         }
     };
 
+    function speak(phrase) {
+        const utterance = new SpeechSynthesisUtterance(phrase);
+        utterance.voice = speechSynthesis.getVoices()[0]; 
+      
+        // Speak the text
+        speechSynthesis.speak(utterance);
+    }
+
     useEffect(() => {
         console.log('Adding event listener for keydown');
         window.addEventListener('keydown', handleKeyPress);
+
+        speak(position);
 
         // Cleanup event listener on component unmount
         return () => {
             console.log('Removing event listener for keydown');
             window.removeEventListener('keydown', handleKeyPress);
         };
-    }, []);
+    }, [position]);
 
     return (
         <div data-testid="Game" className='Game'>

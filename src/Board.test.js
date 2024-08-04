@@ -7,4 +7,5 @@ test('renders board', () => {
   
   const board = screen.getByTestId("Board");
   expect(board).toBeInTheDocument();
+
 });

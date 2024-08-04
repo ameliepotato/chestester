@@ -5,7 +5,7 @@ function Game(props) {
     return (
         <div>
             {props.black ? "Black" : "White"}
-            <Board black={props.black}/>
+            <Board black={props.black} />
         </div>)
 };
 

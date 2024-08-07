@@ -12,6 +12,7 @@ function Game(props) {
     const [correctGuesses, setCorrectGuesses] = useState(0);
 
     const handleGuess = (black) => {
+        speak(black? "Black":"White");
         if (black === !chessLogic.squareIsWhite(position)) {
             setCorrectGuesses((correctGuesses) => correctGuesses + 1);
             speak("Correct");
@@ -25,6 +26,7 @@ function Game(props) {
     const handleKeyPress = (event) => {
         console.log('Key pressed:', event.key, " position:",  position);
         if (event.code === 'Period') {  // '>' key
+           
             handleGuess(true);
         }
         if (event.code === 'Comma') {  // '<' key
@@ -49,12 +51,7 @@ function Game(props) {
         console.log('Adding event listener for keydown');
         window.addEventListener('keydown', handleKeyPress);
 
-        if(position[0] === 'A') { //the voice over doesn't say A as the letter A
-            speak(position[0]);
-            speak(position[1]);
-        } else {
-            speak(position);
-        }
+        speak(position);
 
         // Cleanup event listener on component unmount
         return () => {

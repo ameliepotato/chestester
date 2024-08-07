@@ -33,6 +33,11 @@ function Game(props) {
     };
 
     function speak(phrase) {
+
+        if(window['speechSynthesis'] === undefined) {
+            return; // Bail out
+        }
+
         const utterance = new SpeechSynthesisUtterance(phrase);
         utterance.voice = speechSynthesis.getVoices()[0]; 
       
@@ -45,6 +50,8 @@ function Game(props) {
         window.addEventListener('keydown', handleKeyPress);
 
         speak(position);
+        speak(position[0]);
+        speak(position[1]);
 
         // Cleanup event listener on component unmount
         return () => {

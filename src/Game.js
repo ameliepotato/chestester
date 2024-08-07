@@ -49,9 +49,12 @@ function Game(props) {
         console.log('Adding event listener for keydown');
         window.addEventListener('keydown', handleKeyPress);
 
-        speak(position);
-        speak(position[0]);
-        speak(position[1]);
+        if(position[0] === 'A') { //the voice over doesn't say A as the letter A
+            speak(position[0]);
+            speak(position[1]);
+        } else {
+            speak(position);
+        }
 
         // Cleanup event listener on component unmount
         return () => {
